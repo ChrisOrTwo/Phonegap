@@ -1,0 +1,17 @@
+[
+		{
+			"description": "address 1",
+			"longitude": 16.868,
+			"latitude": 52.440
+		},
+		{
+			"description": "address 2",
+			"longitude": 16.942,
+			"latitude": 52.412
+		},
+		{
+			"description": "mural 3",
+			"longitude": 17.004,
+			"latitude": 52.4300
+		}
+]

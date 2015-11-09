@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="locations-map">
+	<template>
+		<style>
+			google-map {
+				height: 300px;
+			}
+		</style>
+		<div>I'm a custom map element</div>
+		<google-map click-events="false">
+			<google-map-marker id="currentLocation">
+			</google-map-marker>
+			
+			<template is="dom-repeat" items="[[locations]]">
+				<google-map-marker latitude="[[item.latitude]]" longitude="[[item.longitude]]" icon="/images/rabbit-marker.png">
+					<strong>[[item.description]]</strong>
+					<div>latitude: [[item.latitude]]</div>
+					<div>longitude: [[item.longitude]]</div>
+				</google-map-marker>
+			</template>
+		</google-map>
+	</template>
+	
+	<script>
+		(function() {
+			'use strict';
+			
+			Polymer({
+				is: 'locations-map',
+				properties: {
+					locations: {
+						type: Array,
+						notify: true
+					}
+				},
+				ready: function() {
+					this.locations = [];
+				},
+				attached: function() {
+					console.log('map created');
+					this._setCurrentLocation();
+				},
+				_setCurrentLocation: function() {
+					var map = document.querySelector('google-map');
+					var currentPositionReceived = function (position) {
+						map.latitude = position.coords.latitude;
+						map.longitude = position.coords.longitude;
+						
+						var currentLocationMarker = document.querySelector('#currentLocation');
+						currentLocationMarker.latitude = position.coords.latitude;
+						currentLocationMarker.longitude = position.coords.longitude;
+					};
+					navigator.geolocation.getCurrentPosition(currentPositionReceived);
+				}
+			});
+			
+			/*window.onload = function () {
+				map.addEventListener('google-map-click', function (event) {
+					var marker = document.createElement('google-map-marker');
+					marker.longitude = event.detail.latLng.lng();
+					marker.latitude = event.detail.latLng.lat();
+					marker.icon = '/images/rabbit-marker.png';
+					Polymer.dom(map).appendChild(marker);
+				});
+			};*/
+    	})();
+	</script>
+</dom-module>
